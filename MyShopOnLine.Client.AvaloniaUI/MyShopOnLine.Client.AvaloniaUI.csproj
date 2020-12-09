@@ -7,7 +7,7 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <OpenApiReference Include="..\..\..\..\..\Desktop\MyShopOnLineBackend.json" CodeGenerator="NSwagCSharp" Namespace="MyShopOnLine.Backend" Link="OpenAPIs\MyShopOnLineBackend.json" />
+    <None Remove="OpenAPIsDefinition\MyShopOnLineBackend.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />
@@ -23,5 +23,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <OpenApiReference Include="OpenAPIsDefinition\MyShopOnLineBackend.json" CodeGenerator="NSwagCSharp" Namespace="MyShopOnLine.Backend" />
   </ItemGroup>
 </Project>
