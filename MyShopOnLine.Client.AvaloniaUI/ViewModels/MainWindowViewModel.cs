@@ -28,8 +28,14 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
 
         public MainWindowViewModel()
         {
-            this.BaseUrl = "https://localhost:5001";
-            HttpClient client = new HttpClient();
+            // this.BaseUrl = "https://localhost:5001/";
+            this.BaseUrl ="http://myshoponlinebackend.westeurope.cloudapp.azure.com/";
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback =
+                (sender, cert, chain, sslPolicyErrors) => true;
+
+            HttpClient client = new HttpClient(clientHandler);
             backendClient = new MyShopOnLineBackendClient(BaseUrl, client);
 
             LoadOrders = ReactiveCommand.Create(GetOrdersAsync);
