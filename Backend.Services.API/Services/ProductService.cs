@@ -50,8 +50,16 @@ namespace MyShopOnLine.Backend.Services
         public ProductService(MyShopOnLineDataContext context)
         {
             this.dbContext = context;
-            this.dbContext.SavingChanges += DbContext_SavingChanges;
-            this.dbContext.SavedChanges += DbContext_SavedChanges;
+
+            context.SavingChanges += (sender, args) =>
+            {
+                Console.WriteLine($"Saving changes for {((DbContext)sender).Database.GetConnectionString()}");
+            };
+
+            context.SavedChanges += (sender, args) =>
+            {
+                Console.WriteLine($"Saved {args.EntitiesSavedCount} changes for {((DbContext)sender).Database.GetConnectionString()}");
+            };
         }
 
         public async Task<List<ProductRecord>> GetAsync()
@@ -139,16 +147,6 @@ namespace MyShopOnLine.Backend.Services
         private bool ProductExists(string code)
         {
             return this.dbContext.Products.Any(e => e.Code == code);
-        }
-
-        private void DbContext_SavingChanges(object sender, Microsoft.EntityFrameworkCore.SavingChangesEventArgs e)
-        {
-            Console.WriteLine("Saving...");
-        }
-
-        private void DbContext_SavedChanges(object sender, Microsoft.EntityFrameworkCore.SavedChangesEventArgs e)
-        {
-            Console.WriteLine("Saved...");
         }
     }
 }

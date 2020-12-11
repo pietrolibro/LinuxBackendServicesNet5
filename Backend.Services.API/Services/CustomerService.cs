@@ -71,8 +71,16 @@ namespace MyShopOnLine.Backend.Services
         public CustomerService(MyShopOnLineDataContext context)
         {
             this.dbContext = context;
-            this.dbContext.SavingChanges += DbContext_SavingChanges;
-            this.dbContext.SavedChanges += DbContext_SavedChanges;
+
+            context.SavingChanges += (sender, args) =>
+            {
+                Console.WriteLine($"Saving changes for {((DbContext)sender).Database.GetConnectionString()}");
+            };
+
+            context.SavedChanges += (sender, args) =>
+            {
+                Console.WriteLine($"Saved {args.EntitiesSavedCount} changes for {((DbContext)sender).Database.GetConnectionString()}");
+            };
         }
 
         public async Task<List<CustomerRecord>> GetAsync()
@@ -93,7 +101,7 @@ namespace MyShopOnLine.Backend.Services
         {
             if (CustomerExists(customer.Email))
             {
-                return new CreateResult<CustomerRecord>() { AlreadyExists =true,ErrorMessage = $"Customer with email {customer.Email} already exists." };
+                return new CreateResult<CustomerRecord>() { AlreadyExists = true, ErrorMessage = $"Customer with email {customer.Email} already exists." };
             }
 
             Customer newCustomer = customer.GetEntity();
@@ -165,16 +173,6 @@ namespace MyShopOnLine.Backend.Services
         private bool CustomerExists(string email)
         {
             return this.dbContext.Customers.Any(e => e.Email == email);
-        }
-
-        private void DbContext_SavingChanges(object sender, Microsoft.EntityFrameworkCore.SavingChangesEventArgs e)
-        {
-            Console.WriteLine("Saving Customer entities...");
-        }
-
-        private void DbContext_SavedChanges(object sender, Microsoft.EntityFrameworkCore.SavedChangesEventArgs e)
-        {
-            Console.WriteLine("Saved Customer entities.");
         }
     }
 }

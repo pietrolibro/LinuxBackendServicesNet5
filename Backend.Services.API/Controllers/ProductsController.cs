@@ -56,6 +56,9 @@ namespace MyShopOnLine.Backend.API.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+        [ProducesResponseType(201, Type = typeof(ProductRecord))]
         public async Task<ActionResult<Product>> PostProduct(ProductRecord product)
         {
             var result = await productService.CreateAsync(product);

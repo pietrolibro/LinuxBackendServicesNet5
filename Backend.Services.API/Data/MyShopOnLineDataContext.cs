@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Threading;
 
 namespace MyShopOnLine.Backend.Data
 {
@@ -27,7 +29,7 @@ namespace MyShopOnLine.Backend.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.AddInterceptors(new MyShopOnLineDBContextSaveInterceptors());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -188,6 +190,28 @@ namespace MyShopOnLine.Backend.Data
             #endregion 
 
             base.OnModelCreating(modelBuilder);
+        }
+    }
+
+    public class MyShopOnLineDBContextSaveInterceptors : SaveChangesInterceptor
+    {
+        public override InterceptionResult<int> SavingChanges(
+            DbContextEventData eventData,
+            InterceptionResult<int> result)
+        {
+            Console.WriteLine($"Saving changes for {eventData.Context.Database.GetConnectionString()}");
+
+            return result;
+        }
+
+        public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+            DbContextEventData eventData,
+            InterceptionResult<int> result,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            Console.WriteLine($"Saving changes asynchronously for {eventData.Context.Database.GetConnectionString()}");
+
+            return new ValueTask<InterceptionResult<int>>(result);
         }
     }
 }

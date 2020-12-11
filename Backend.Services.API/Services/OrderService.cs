@@ -80,8 +80,16 @@ namespace MyShopOnLine.Backend.Services
         public OrderService(MyShopOnLineDataContext context)
         {
             this.dbContext = context;
-            this.dbContext.SavingChanges += DbContext_SavingChanges;
-            this.dbContext.SavedChanges += DbContext_SavedChanges;
+
+            context.SavingChanges += (sender, args) =>
+            {
+                Console.WriteLine($"Saving changes for {((DbContext)sender).Database.GetConnectionString()}");
+            };
+
+            context.SavedChanges += (sender, args) =>
+            {
+                Console.WriteLine($"Saved {args.EntitiesSavedCount} changes for {((DbContext)sender).Database.GetConnectionString()}");
+            };
         }
 
         public async Task<List<OrderRecord>> GetAsync()
@@ -179,18 +187,6 @@ namespace MyShopOnLine.Backend.Services
         private bool OrderExists(string number)
         {
             return this.dbContext.Orders.Any(e => e.Number == number);
-        }
-
-        private void DbContext_SavingChanges(object sender, Microsoft.EntityFrameworkCore.SavingChangesEventArgs e)
-        {
-            // Sender is an instance of the DataContext.
-            Console.WriteLine("Saving Order entities...");
-        }
-
-        private void DbContext_SavedChanges(object sender, Microsoft.EntityFrameworkCore.SavedChangesEventArgs e)
-        {
-            // Sender is an instance of the DataContext.
-            Console.WriteLine($"Saved {e.EntitiesSavedCount} order entities.");
         }
     }
 }
