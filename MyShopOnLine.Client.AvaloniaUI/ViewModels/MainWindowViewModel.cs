@@ -1,13 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using MyShopOnLine.Client.AvaloniaUI.Models;
-
+﻿
 using ReactiveUI;
+using System;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using MyShopOnLine.Backend;
+using MyShopOnLine.Client.AvaloniaUI.Models;
 
 namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
 {
