@@ -21,6 +21,7 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // GET: api/Products
         [HttpGet]
+        [ProducesResponseType(200,Type=typeof(IEnumerable<ProductRecord>))]
         public async Task<ActionResult<IEnumerable<ProductRecord>>> GetProducts()
         {
             return await productService.GetAsync();
@@ -28,6 +29,8 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // GET: api/Products/5
         [HttpGet("{code}")]
+        [ProducesResponseType(200,Type=typeof(OrderRecord))]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<ProductRecord>> GetProduct(string code)
         {
             var product = await productService.GetAsync(code);
@@ -38,8 +41,10 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{code}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> PutProduct(string code, ProductRecord product)
         {
             if (product == null) return BadRequest("Product is null");
@@ -54,11 +59,10 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
-        [ProducesResponseType(201, Type = typeof(ProductRecord))]
         public async Task<ActionResult<Product>> PostProduct(ProductRecord product)
         {
             var result = await productService.CreateAsync(product);
@@ -72,6 +76,8 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{code}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteProduct(string code)
         {
             var result = await productService.RemoveAsync(code);

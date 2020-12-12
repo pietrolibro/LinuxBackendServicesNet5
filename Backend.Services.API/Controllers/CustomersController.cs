@@ -30,7 +30,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(200,Type=typeof(CustomerRecord))]
+        [ProducesResponseType(200,Type=typeof(IEnumerable<CustomerRecord>))]
         public async Task<ActionResult<IEnumerable<CustomerRecord>>> GetCustomers()
         {
             return await customerService.GetAsync();
@@ -38,6 +38,8 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // GET: api/Customers/5
         [HttpGet("{email}")]
+        [ProducesResponseType(200,Type=typeof(CustomerRecord))]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CustomerRecord>> GetCustomer(string email)
         {
             var customer = await customerService.GetAsync(email);
@@ -48,8 +50,10 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // PUT: api/Customers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{email}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> PutCustomer(string email, CustomerRecord customer)
         {
             if (customer == null) return BadRequest("Customer is null");
@@ -64,8 +68,10 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // POST: api/Customers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
         public async Task<ActionResult<Customer>> PostCustomer(CustomerRecord customer)
         {
             var result = await customerService.CreateAsync(customer);
@@ -79,6 +85,8 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // DELETE: api/Customers/5
         [HttpDelete("{email}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteCustomer(string email)
         {
             var result = await customerService.RemoveAsync(email);

@@ -11,21 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-#region Top Level Statements
-
-//// https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9
-//CreateHostBuilder(args).Build().Run();
-
-//static IHostBuilder CreateHostBuilder(string[] args) =>
-//    Host.CreateDefaultBuilder(args)
-//    .ConfigureWebHostDefaults(webBuilder =>
-//    {
-//        webBuilder.UseStartup<Startup>();
-//    });
-
-#endregion
-
-
 namespace MyShopOnLine.Backend.API
 {
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MyShopOnLine.Backend.Models;
 using MyShopOnLine.Backend.Records;
 using MyShopOnLine.Backend.Services;
+using System;
 
 namespace MyShopOnLine.Backend.API.Controllers
 {
@@ -21,6 +22,7 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // GET: api/Orders
         [HttpGet]
+        [ProducesResponseType(200,Type=typeof(OrderRecord))]
         public async Task<ActionResult<IEnumerable<OrderRecord>>> GetOrders()
         {
             return await orderService.GetAsync();
@@ -28,6 +30,8 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // GET: api/Orders/5
         [HttpGet("{number}")]
+        [ProducesResponseType(200,Type=typeof(OrderRecord))]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<OrderRecord>> GetOrder(string number)
         {
             var order = await orderService.GetAsync(number);
@@ -38,8 +42,10 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // PUT: api/Orders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{number}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> PutOrder(string number, OrderRecord order)
         {
             if (order == null) return BadRequest("Order is null");
@@ -51,31 +57,13 @@ namespace MyShopOnLine.Backend.API.Controllers
             if (result.NotFound) return NotFound(result.ErrorMessage);
 
             return NoContent();
-        }
-
-
-        //// POST: api/Orders
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost("test-new-order")]
-        //public async Task<ActionResult<OrderRecord>> TestOrder()
-        //{
-        //    List<OrderEntry> entries = new List<OrderEntry>();
-
-        //    entries.Add(new OrderEntry("ITEM00001", 2));
-        //    entries.Add(new OrderEntry("ITEM00002", 1));
-
-        //    OrderRecord orderIn = new OrderRecord("pietro.libro@gmail.com", entries);
-
-        //    CreateResult<OrderRecord> result = await orderService.CreateAsync(orderIn);
-
-        //    if (result.Success) return result.NewEntity;
-
-        //    return BadRequest(result.ErrorMessage);
-        //}
+        }       
 
         // POST: api/Orders
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
         public async Task<ActionResult<Order>> PostOrder(OrderRecord order)
         {
             var result = await orderService.CreateAsync(order);
@@ -89,6 +77,8 @@ namespace MyShopOnLine.Backend.API.Controllers
 
         // DELETE: api/Orders/5
         [HttpDelete("{number}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteOrder(string number)
         {
             var result = await orderService.RemoveAsync(number);
@@ -96,6 +86,33 @@ namespace MyShopOnLine.Backend.API.Controllers
             if (result.NotFound) return NotFound();
 
             return NoContent();
+        }
+
+        // POST: api/Orders
+        [HttpPost("create-new-random-order")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<OrderRecord>> TestOrder()
+        {
+            Random rnd = new Random();
+
+            List<OrderEntry> entries = new List<OrderEntry>();
+
+            string[] productCodes = new string[]
+            {
+                "ITEM00001","ITEM00002","ITEM00003"
+            };    
+
+           entries.Add(new OrderEntry(productCodes[rnd.Next(0,1)], rnd.Next(1,5)));
+           entries.Add(new OrderEntry(productCodes[2], rnd.Next(1,5)));
+
+           OrderRecord orderIn = new OrderRecord("pietro.libro@gmail.com", entries);
+
+            var result = await orderService.CreateAsync(orderIn);
+
+           if (result.Success) return result.NewRecord;
+
+           return BadRequest(result.ErrorMessage);
         }
     }
 }

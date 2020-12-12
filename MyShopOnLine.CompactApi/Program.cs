@@ -1,10 +1,11 @@
 
 
-#region Classi Program.cs boilerplate
+#region Classic boilerplate code.
 
 // using System;
-//namespace MyShopOnLine.Api.WhatsNew
-//{
+
+// namespace MyShopOnLine.Api.WhatsNew
+// {
 //    class Program
 //    {
 //        static void Main(string[] args)
@@ -12,39 +13,39 @@
 //            Console.WriteLine("Hello World!");
 //        }
 //    }
-//}
+// }
 
 #endregion
 
 
 // The compiler allows us to omit the noisy boilerplate of Program class.
-#region Top Level Statements - step 1
+#region Top-Level programs - step 1
 
-//System.Console.WriteLine("Hello World, by Top Level Statements");
+// System.Console.WriteLine("Hello World, by Top Level Statements");
 
 #endregion
 
 #region A Web API using just a line of code - step 2
 
-//using Microsoft.AspNetCore;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Http;
+// using Microsoft.AspNetCore;
+// using Microsoft.AspNetCore.Builder;
+// using Microsoft.AspNetCore.Hosting;
+// using Microsoft.AspNetCore.Http;
 
 
-//WebHost.CreateDefaultBuilder().Configure(app => app.Run(d => d.Response.WriteAsync("Exposing a Web Api with just a line of code."))).Build().Run();
+// WebHost.CreateDefaultBuilder().Configure(app => app.Run(d => d.Response.WriteAsync("Exposing a Web Api with just a line of code."))).Build().Run();
 
 #endregion
 
 
 #region A Web API using just a line of code - step 3
 
-//using Microsoft.AspNetCore;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Http;
+// using Microsoft.AspNetCore;
+// using Microsoft.AspNetCore.Builder;
+// using Microsoft.AspNetCore.Hosting;
+// using Microsoft.AspNetCore.Http;
 
-//WebHost.CreateDefaultBuilder()
+// WebHost.CreateDefaultBuilder()
 //    .ConfigureServices(services =>
 //    {
 //        // Dependency injection and ASP.NET Core services.
@@ -58,12 +59,12 @@
 
 #region A Concrete example - step 4
 
+using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

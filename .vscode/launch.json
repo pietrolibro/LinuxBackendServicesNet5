@@ -5,13 +5,42 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Attach",
+            "name": "Demo (Compact API)",
             "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/MyShopOnLine.CompactApi/bin/Debug/net5.0/MyShopOnLine.CompactApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/MyShopOnLine.CompactApi",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
         },
         {
-            "name": ".NET Core Launch (console)",
+            "name": "My Shop Online (API)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Backend.Services.API/bin/Debug/net5.0/MyShopOnLine.Backend.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Backend.Services.API",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "My Shop Online (Client)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -21,11 +50,14 @@
             "console": "internalConsole",
             "stopAtEntry": false
         },
+    ],
+    "compounds": [
         {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "name": "My Shop Online (Backend + Client)",
+            "configurations": [
+                "My Shop Online (API)"
+                ,"My Shop Online (Client)"
+            ]
         }
     ]
 }
