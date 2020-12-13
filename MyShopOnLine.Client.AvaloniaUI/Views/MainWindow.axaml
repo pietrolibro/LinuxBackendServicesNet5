@@ -82,7 +82,7 @@
       <TabItem Header="Orders">
         <StackPanel>
           <Button Content="Load Order" Margin="5" Command="{Binding LoadOrders}"/>
-          <Button Content="Add New Order" Margin="5" Command="{Binding LoadOrders}"/>
+          <Button Content="Add New Order" Margin="5" Command="{Binding AddNewOrder}"/>
             <DataGrid Items="{Binding Orders}">
               <DataGrid.Columns>
                 <DataGridTextColumn Header="Order Number"

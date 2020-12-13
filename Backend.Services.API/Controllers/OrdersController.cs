@@ -21,15 +21,15 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // GET: api/Orders
-        [HttpGet]
-        [ProducesResponseType(200,Type=typeof(OrderRecord))]
+        [HttpGet("get-orders")]
+        [ProducesResponseType(200,Type=typeof(IEnumerable<OrderRecord>))]
         public async Task<ActionResult<IEnumerable<OrderRecord>>> GetOrders()
         {
             return await orderService.GetAsync();
         }
 
         // GET: api/Orders/5
-        [HttpGet("{number}")]
+        [HttpGet("get-order/{number}")]
         [ProducesResponseType(200,Type=typeof(OrderRecord))]
         [ProducesResponseType(404)]
         public async Task<ActionResult<OrderRecord>> GetOrder(string number)
@@ -42,7 +42,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // PUT: api/Orders/5
-        [HttpPut("{number}")]
+        [HttpPut("update-order/{number}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -60,7 +60,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }       
 
         // POST: api/Orders
-        [HttpPost]
+        [HttpPost("add-new-order")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -76,7 +76,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // DELETE: api/Orders/5
-        [HttpDelete("{number}")]
+        [HttpDelete("remove-order/{number}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteOrder(string number)
@@ -89,10 +89,10 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // POST: api/Orders
-        [HttpPost("create-new-random-order")]
+        [HttpPost("add-new-generated-order")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<OrderRecord>> TestOrder()
+        public async Task<ActionResult<OrderRecord>> GenerateOrder()
         {
             Random rnd = new Random();
 

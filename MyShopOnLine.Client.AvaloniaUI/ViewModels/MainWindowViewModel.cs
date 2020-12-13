@@ -35,7 +35,7 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
         private double productPrice = 0.0f;
 
         private string productCode = "Insert code here..";
-        private string productDescription = "Inser description here...";        
+        private string productDescription = "Inser description here...";
 
         public int Review { get => review; set => this.RaiseAndSetIfChanged(ref this.review, value); }
         public int QtyForUnityPack { get => qtyForUnityPack; set => this.RaiseAndSetIfChanged(ref this.qtyForUnityPack, value); }
@@ -57,6 +57,7 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
         public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> LoadOrders { get; }
         public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> LoadProducts { get; }
         public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> AddNewProduct { get; }
+        public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> AddNewOrder { get; }
 
         public MainWindowViewModel()
         {
@@ -68,9 +69,11 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
 
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
-            LoadOrders = ReactiveCommand.Create(GetOrdersAsync);
             LoadProducts = ReactiveCommand.Create(GetProductsAsync);
             AddNewProduct = ReactiveCommand.Create(AddNewProductAsync);
+
+            LoadOrders = ReactiveCommand.Create(GetOrdersAsync);
+            AddNewOrder = ReactiveCommand.Create(AddNewOrderAsync);
 
             this.Orders = new ObservableCollection<OrderRecord>();
             this.Products = new ObservableCollection<ProductRecord>();
@@ -81,31 +84,31 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
 
         public async void UpdateProductAsync(ProductRecord productRecord)
         {
-            await backendClient.Products3Async(productRecord.Code, productRecord);
+            await backendClient.UpdateProductAsync(productRecord.Code, productRecord);
         }
 
         public async void DeleteProductAsync(ProductRecord productRecord)
         {
-            await backendClient.Products4Async(productRecord.Code);
+            await backendClient.RemoveProductAsync(productRecord.Code);
 
             GetProductsAsync();
         }
 
         public async void UpdateOrderAsync(OrderRecord orderRecord)
         {
-            await backendClient.Orders3Async(orderRecord.Number, orderRecord);
+            await backendClient.UpdateOrderAsync(orderRecord.Number, orderRecord);
         }
 
         public async void DeleteOrderAsync(OrderRecord orderRecord)
         {
-            await backendClient.Orders4Async(orderRecord.Number);
+            await backendClient.RemoveOrderAsync(orderRecord.Number);
 
             GetOrdersAsync();
         }
 
         private async void GetProductsAsync()
         {
-            var products = await backendClient.ProductsAllAsync();
+            var products = await backendClient.GetProductsAsync();
 
             this.Products.Clear();
             foreach (var product in products) this.Products.Add(product);
@@ -113,7 +116,7 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
 
         private async void GetOrdersAsync()
         {
-            var orders = await backendClient.OrdersAllAsync();
+            var orders = await backendClient.GetOrdersAsync();
 
             this.Orders.Clear();
             foreach (var order in orders) this.Orders.Add(order);
@@ -121,7 +124,7 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
 
         private async void AddNewProductAsync()
         {
-            await backendClient.ProductsAsync(new ProductRecord()
+            await backendClient.AddNewProductAsync(new ProductRecord()
             {
                 Code = this.ProductCode,
                 Description = this.ProductDescription,
@@ -135,6 +138,13 @@ namespace MyShopOnLine.Client.AvaloniaUI.ViewModels
             GetProductsAsync();
 
             this.ProductCode = $"Item#{new Random().Next(100, 50000)}";
+        }
+
+        private async void AddNewOrderAsync()
+        {
+            await backendClient.AddNewGeneratedOrderAsync();
+
+            GetOrdersAsync();
         }
     }
 }

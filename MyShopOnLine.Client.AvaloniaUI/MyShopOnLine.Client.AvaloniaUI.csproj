@@ -10,6 +10,9 @@
     <None Remove="OpenAPIsDefinition\MyShopOnLineBackend.json" />
   </ItemGroup>
   <ItemGroup>
+    <OpenApiReference Include="OpenAPIsDefinition\MyShopOnLineBackend.json" CodeGenerator="NSwagCSharp" Namespace="MyShopOnLine.Backend" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
@@ -23,8 +26,5 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <OpenApiReference Include="OpenAPIsDefinition\MyShopOnLineBackend.json" CodeGenerator="NSwagCSharp" Namespace="MyShopOnLine.Backend" />
   </ItemGroup>
 </Project>

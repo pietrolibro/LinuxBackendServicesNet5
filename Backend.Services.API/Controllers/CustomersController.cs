@@ -29,7 +29,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         /// Get all Customers.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("get-customers")]
         [ProducesResponseType(200,Type=typeof(IEnumerable<CustomerRecord>))]
         public async Task<ActionResult<IEnumerable<CustomerRecord>>> GetCustomers()
         {
@@ -37,7 +37,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // GET: api/Customers/5
-        [HttpGet("{email}")]
+        [HttpGet("get-customer/{email}")]
         [ProducesResponseType(200,Type=typeof(CustomerRecord))]
         [ProducesResponseType(404)]
         public async Task<ActionResult<CustomerRecord>> GetCustomer(string email)
@@ -50,7 +50,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // PUT: api/Customers/5
-        [HttpPut("{email}")]
+        [HttpPut("update-customer/{email}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -68,7 +68,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // POST: api/Customers
-        [HttpPost]
+        [HttpPost("add-new-customer")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -84,7 +84,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // DELETE: api/Customers/5
-        [HttpDelete("{email}")]
+        [HttpDelete("remove-customer/{email}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteCustomer(string email)

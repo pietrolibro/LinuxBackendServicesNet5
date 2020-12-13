@@ -20,7 +20,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpGet("get-products")]
         [ProducesResponseType(200,Type=typeof(IEnumerable<ProductRecord>))]
         public async Task<ActionResult<IEnumerable<ProductRecord>>> GetProducts()
         {
@@ -28,7 +28,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // GET: api/Products/5
-        [HttpGet("{code}")]
+        [HttpGet("get-product/{code}")]
         [ProducesResponseType(200,Type=typeof(OrderRecord))]
         [ProducesResponseType(404)]
         public async Task<ActionResult<ProductRecord>> GetProduct(string code)
@@ -41,7 +41,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // PUT: api/Products/5
-        [HttpPut("{code}")]
+        [HttpPut("update-product/{code}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -59,7 +59,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // POST: api/Products
-        [HttpPost]
+        [HttpPost("add-new-product")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -75,7 +75,7 @@ namespace MyShopOnLine.Backend.API.Controllers
         }
 
         // DELETE: api/Products/5
-        [HttpDelete("{code}")]
+        [HttpDelete("remove-product/{code}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteProduct(string code)
